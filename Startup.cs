@@ -1,5 +1,4 @@
-﻿using FunctionAppTest.Cache;
-using FunctionAppTest.Models;
+﻿using FunctionAppTest.Models;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +18,6 @@ namespace FunctionAppTest
             builder.Services.AddLogging();
             builder.Services.AddHttpClient();
 
-            builder.Services.AddSingleton<IRedisCacheAccessor, RedisCacheAccessor>();
-            builder.Services.AddSingleton<ICacheConnector, CacheConnector>(); 
             
             string connectionString = Environment.GetEnvironmentVariable("AzureDB") ?? throw new InvalidOperationException("AzureDB ConnectionString environment variable not set");
             builder.Services.AddDbContext<AppDbContext>(

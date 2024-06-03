@@ -12,8 +12,9 @@ namespace FunctionAppTest.Models
         [Key]
         public int Id { get; set; }
         public DateTime StartedTime { get; set; }
-        public DateTime FinishedTime { get; set; }
+        public DateTime? FinishedTime { get; set; }
         public double? ExcutionTime { get; set; }
         public bool? IsCompleted { get; set; }
+        public string FunctionName { get; set; }
     }
 }

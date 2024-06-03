@@ -17,7 +17,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunctionAppTest
+namespace FunctionAppTest.Function
 {
     public class Logic
     {
@@ -30,25 +30,26 @@ namespace FunctionAppTest
         }
 
         [FunctionName("RunLogic")]
-        [OpenApiOperation(operationId: "RunLogic", tags: new[] { "logic" })]     
+        [OpenApiOperation(operationId: "RunLogic", tags: new[] { "logic" })]
 
         public async Task<IActionResult> RunLogic(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            DateTime startedTime = DateTime.Now;    
-            Loggings rs = new() 
-            { 
+            DateTime startedTime = DateTime.Now;
+            Loggings rs = new()
+            {
                 StartedTime = startedTime,
-                
+                FunctionName = "RunLogic"
             };
-            await Task.Delay(TimeSpan.FromMinutes(10));
+            // check living time
+            //await Task.Delay(TimeSpan.FromMinutes(10));
             DateTime finishTime = DateTime.Now;
             rs.FinishedTime = finishTime;
             rs.ExcutionTime = (startedTime - finishTime).TotalMinutes;
             rs.IsCompleted = true;
-
+           
             await _appDbContext.Loggings.AddAsync(rs);
             await _appDbContext.SaveChangesAsync();
             return new OkObjectResult(rs);
